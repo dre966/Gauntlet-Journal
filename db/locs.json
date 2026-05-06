@@ -1,0 +1,128 @@
+[
+  {
+    "loc": "Auckland",
+    "tracks": [
+      "Hairpin Finish",
+      "Straight Sprint"
+    ]
+  },
+  {
+    "loc": "Buenos Aires",
+    "tracks": [
+      "La Boca",
+      "Water Run"
+    ]
+  },
+  {
+    "loc": "Cairo",
+    "tracks": [
+      "A King's Revival",
+      "Gezira Island"
+    ]
+  },
+  {
+    "loc": "Greenland",
+    "tracks": [
+      "Ice Breakers",
+      "Out of the Center"
+    ]
+  },
+  {
+    "loc": "Himalayas",
+    "tracks": [
+      "Freefall",
+      "Leap of Faith"
+    ]
+  },
+  {
+    "loc": "Nevada",
+    "tracks": [
+      "Bridge to Bridge",
+      "Tunnel Sprint"
+    ]
+  },
+  {
+    "loc": "New York",
+    "tracks": [
+      "A Run In The Park",
+      "Wall Street Ride"
+    ]
+  },
+  {
+    "loc": "Norway",
+    "tracks": [
+      "Future Fusion",
+      "Rocketing to the Future"
+    ]
+  },
+  {
+    "loc": "Osaka",
+    "tracks": [
+      "Meiji Rush",
+      "Namba Park"
+    ]
+  },
+  {
+    "loc": "Paris",
+    "tracks": [
+      "Along the Seine",
+      "Notre Dame"
+    ]
+  },
+  {
+    "loc": "Rome",
+    "tracks": [
+      "Roman Byroads",
+      "Roman Tumble"
+    ]
+  },
+  {
+    "loc": "San Francisco",
+    "tracks": [
+      "Railroad Bustle",
+      "The Tunnel"
+    ]
+  },
+  {
+    "loc": "Scotland",
+    "tracks": [
+      "Ghost Ships",
+      "Rocky Valley"
+    ]
+  },
+  {
+    "loc": "Shanghai",
+    "tracks": [
+      "Double Roundabout",
+      "Paris of the East"
+    ]
+  },
+  {
+    "loc": "Singapore",
+    "tracks": [
+      "Urban Rush",
+      "Waterslide Whirl"
+    ]
+  },
+  {
+    "loc": "The Caribbean",
+    "tracks": [
+      "Hell Vale",
+      "Resort Dash"
+    ]
+  },
+  {
+    "loc": "Tuscany",
+    "tracks": [
+      "Riverine Launch",
+      "Vineyard Voyage"
+    ]
+  },
+  {
+    "loc": "U.S. Midwest",
+    "tracks": [
+      "It's A Twister!",
+      "Trainspotter"
+    ]
+  }
+]

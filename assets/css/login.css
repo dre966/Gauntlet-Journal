@@ -1,0 +1,110 @@
+@font-face {
+    font-family: "RadjM";
+    src: url(/web_prog/assets/fonts/Rajdhani-Medium.ttf);
+}
+html, body{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #190528;
+    font-family: "RadjM";
+    color: white;
+}
+
+.nav{
+    background-color: black;
+    width: 100%;
+    height: 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+.screen{
+    display: flex;
+    width: 100%;
+    height: 90%;
+    align-items: center;
+    justify-content: center;
+
+}
+.login-box{
+    width: 40%;
+    height: 45%;
+    border-radius: 20px;
+    background-color: #290346;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.login-box h2{
+    font-size: 40px;
+    margin: 5px 0 0 0;
+}
+.login-box hr{
+    width: 50%;
+    margin-bottom: 20px;
+}
+.login-box form{
+    width: 80%;
+    height: 60%;
+    border-radius: 20px;
+    border: 5px solid rgba(255, 255, 255, 0.296);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+form input{
+    width: 80%;
+    clip-path: polygon(100%, 0);
+    height: 20%;
+    border-radius: 20px;
+    border: 0 solid;
+}
+form .buttons{
+    display: flex;
+    flex-direction: row;
+    width: 20px;
+    height: 40px;
+    gap: 15px;
+    margin-left: 36%;
+}
+form .buttons button{
+    width: 200PX;
+    border: 0 solid;
+
+    margin-bottom: 5px;
+    border-radius: 20px;
+    font-family: "RadjM";
+}
+.toast{
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: rgba(30, 5, 50, 0.95);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: white;
+    font-family: "RadjM", sans-serif;
+    font-size: 1rem;
+    padding: 12px 28px;
+    border-radius: 16px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s, transform 0.3s;
+    z-index: 999;
+    white-space: nowrap;
+}
+.toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.toast.success { border-color: rgba(0, 255, 4, 0.5); color: #00ff04; }
+.toast.error   { border-color: rgba(255, 60, 60, 0.5); color: #ff5555; }
+.toast.info    { border-color: rgba(255, 255, 255, 0.3); color: #ffffff; }

@@ -1,0 +1,107 @@
+@font-face {
+    font-family: "RadjM";
+    src: url("/web_prog/assets/fonts/Rajdhani-Medium.ttf");
+}
+html, body{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #190528;
+}
+.nav{
+    background-color: black;
+    color: white;
+    width: 100%;
+    height: 15%;
+    display: flex;
+    justify-content: center;
+}
+.screen{
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.searchbar{
+    background: rgba(255, 255, 255, 0.2); /* Semi-transparent white/grey */
+    padding: 10px 40px;
+    margin-top: 15px;
+    width: 200px;
+    height: 40px;
+    border-radius: 20px 20px 20px 20px;
+    display: flex;
+    align-items: center;
+
+}
+
+.searchbar input{
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    font-style: italic; /* Matches the "Search..." text in your photo */
+    outline: none;
+    width: 100%;
+}
+
+.searchbar input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+.car-list{
+    margin-top: 50px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+
+}
+.car-card{
+    background-color: #868ff1;
+    margin: 10px;
+    border: 1.6px;
+    width: 400px;
+    position: relative;
+    z-index: 1;
+    height: 200px;
+    border-radius: 20px;
+   overflow: hidden;
+    background-position: center;
+    background-size: cover;
+    border: 1px solid rgb(255, 255, 255,0.1);
+    display: flex;
+    align-items: flex-end  ;
+     background: rgb(255, 255, 255,0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.car-name{
+    margin: 0 0 0 0;
+    padding: 30% 0px 0 10px;
+    width: 100%;
+    padding: 15px;
+     background: rgb(255, 255, 255,0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+   
+}
+.car-card.selected{
+    border: 5px solid rgba(0, 255, 4, 0.904);
+}
+.car-name h2{
+    margin: 0 0 0 0;
+    color: rgb(0, 0, 0);
+    font-size: 35px;
+    font-family: "RadjM";
+}
+
+.car-name #model{
+    font-size: 25px;
+}
+
