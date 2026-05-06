@@ -7,21 +7,26 @@ $user     = "root";
 $password = "";
 $db_name  = "web_prog";
 
-$uname  = isset($_POST["uname"])  ? trim($_POST["uname"])  : "";
-$pass   = isset($_POST["pass"])   ? trim($_POST["pass"])   : "";
-$action = isset($_POST["action"]) ? $_POST["action"]       : "";
+$res = json_decode(file_get_contents("php://input"),true);
+
+$uname  = isset($res["uname"])  ? trim($res["uname"])  : "";
+$pass   = isset($res["pass"])   ? trim($res["pass"])   : "";
+$action = isset($res["action"]) ? $res["action"]       : "";
 
 if (empty($uname) || empty($pass)) {
-    die(json_encode(["error" => "Username and password are required"]));
+    http_response_code(400);
+    die(json_encode(["status"=>"error", "msg" => "Username and password are required"]));
 }
 
 if ($action !== "login" && $action !== "register") {
+    http_response_code(400);
     die(json_encode(["status" => "error", "msg"=>"Invalid action"]));
 }
 
 $conn = new mysqli($host, $user, $password, $db_name);
 
 if ($conn->connect_error) {
+    http_response_code(400);
     die(json_encode(["error" => "Connection Failed: " . $conn->connect_error]));
 }
 

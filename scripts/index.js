@@ -102,7 +102,7 @@ searchbar.addEventListener("input",(e)=>{
 })
 
 next.addEventListener("click", async(e)=>{
-    const result = await fetch(`save_cars.php?id=${sessionData.uid}&cars=${selected}`, {method:"POST"})
+    const result = await fetch(`save_cars.php?cars=${selected}`, {method:"POST"})
     const res = await result.json()
     const msg = res["msg"]
     const stat = res["status"]

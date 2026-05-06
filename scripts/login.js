@@ -19,12 +19,13 @@ async function get_user(action) {
     if(uname.trim() == ""|pass.trim() == ""){
         showinfo("Please make sure username or password field is not empty", "error")
         return;
-    }
-    const formData = new FormData();
-    formData.append('uname',uname)
-    formData.append('pass',pass)
-    formData.append('action', action)
-    const res = await fetch("insert.php", {method:"POST",body:formData})
+    }    
+    const res = await fetch("insert.php", {method:"POST",body:JSON.stringify({
+        "uname":uname,
+        "pass":pass,
+        "action":action
+    })})
+
     const r = await res.json()
     return r
 }
