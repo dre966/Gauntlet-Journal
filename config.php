@@ -1,7 +1,8 @@
 <?php
 session_start();
-$funct_name = $_GET['funct'] ?? null;
-$args_string = $_GET['args'] ?? null;
+$recv = json_decode(file_get_contents("php://input"),true);
+$funct_name = $recv['to_do'] ?? null;
+$args_string = $recv['params'] ?? null;
 $uid = $_SESSION["uid"] ?? null;
 function connect(){
     $host = "localhost";
@@ -15,14 +16,77 @@ function connect(){
     return $conn;
 }
 
+function ret(string $stat,string $msg, $body){
+    return ["status"=>$stat, "msg"=>$msg, "body"=>$body];
+}
+
 function check_user($uid){
     $conn = connect();
     if(!isset($_SESSION["uid"])){
-        return ["status"=>"error", "msg"=>"Not Logged In... Redirecting...Please Log In", "body"=>null];
-    }else{
-        return ["status"=>"success", "msg"=>"Logged In... Loadng...","body"=>null];
+        return ret("error","Not Logged In... Redirecting...Please Log In",null);
+        }else{
+        return ret("success","Logged In... Loadng...",null);
     }
 }
+function get_all_cars(string $searchterm){
+    try{
+        $conn =  connect();
+        $queryterm = "%".$searchterm."%";
+        $stmt = $conn->prepare("SELECT id,brand,model FROM cars WHERE brand LIKE ? OR model LIKE ?");
+        $stmt->bind_param("ss", $queryterm, $queryterm);
+        $stmt->execute();
+        $res = $stmt->get_result();
+
+        $cars = [];
+        while($row = $res->fetch_assoc()){
+            $cars[] = $row;
+            }
+        return ret("success", "Cars Loaded", $cars);
+    }catch(Exception $e){
+        http_response_code(400);
+        return ret("error", $e->getMessage(), null);
+    }
+
+}
+
+function save_cars(string $uid, string $cars){
+    $checkconn = connect();
+    $query = "INSERT INTO selection (id, cars) VALUES(?,?)";
+    try{
+        $checkquery = "SELECT * FROM users where id = ?";
+        $chckstmt = $checkconn->prepare($checkquery);
+        $chckstmt->bind_param("i", $uid);
+        $chckstmt->execute();
+        if($chckstmt->fetch() == null){
+            die(json_encode(["status"=>"error", "msg"=>"User Does Not Exist", "body"=>null]));
+        }
+        $checkconn->close();
+        $conn = connect();
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("is", $uid, $cars);
+        if($stmt->execute()){
+            return ret("success","Cars added succesfully",$cars);
+        }else{
+            return ret("success","Something went wrong",$cars);
+        }
+    
+    }catch(mysqli_sql_exception $e){
+        if($e->getCode() == 1062){
+            $query = $query . "ON DUPLICATE KEY UPDATE cars = ?";
+            $stmt = $conn->prepare($query);
+            $stmt->bind_param("iss", $uid, $cars, $cars);
+            if($stmt->execute()){
+                return ret("success","Cars modified",$cars);
+                }else{
+                    return ret("success","Something went wrong",$cars);
+            }
+        }else{
+            http_response_code(400);
+            return $e->getMessage();
+        }
+    }
+}
+
 function get_cars($u){
     $car_conn = connect();
     $car_query = "SELECT cars from selection where id = ?";
@@ -50,8 +114,11 @@ function get_cars($u){
             $res_array[] = $row;
         }
        }
-       return $res_array;
+       return ret("success","Cars Loaded",$res_array);
     }
+}
+function get_uname(){
+    return ret("success","Logged in", $_SESSION["uname"]);
 }
 function get_locs(){
     $conn = connect();
@@ -62,7 +129,7 @@ function get_locs(){
     while($row = $result->fetch_assoc()){
         $res_array[] = $row;
     }
-    return $res_array;
+    return ret("success","Locations Loaded",$res_array);
 }
 function get_tracks($loc){
     $conn = connect();
@@ -75,22 +142,22 @@ function get_tracks($loc){
     while($row = $result->fetch_assoc()){
         $res_array[] = $row;
     }
-    return $res_array;
+    return ret("success","Tracks Loaded",$res_array);;
 }
 
 function add_time($t_id, $c_id, $time) {
     global $uid;
     $conn = connect();
-    $stmt = $conn->prepare("INSERT INTO times (user_id, track_id, car_id, lap_time) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE lap_time=LEAST(lap_time, VALUES(lap_time))");
+    $stmt = $conn->prepare("INSERT INTO times (user_id, track_id, car_id, lap_time) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE lap_time= VALUES(lap_time)");
     $actual_time = calc_time($time);
     // "iiid" means 3 integers and 1 double/decimal
     $stmt->bind_param("iiid", $uid, $t_id, $c_id, $actual_time);
     try{
     if($stmt->execute()) {
-        return ["status" => "set"];
+        return ret("success","Time Added",null);
     }else{
         $res = $stmt->get_result();
-        return ["status"=>"error","msg"=>$stmt->error];
+        return ret("success","Time Add Failed", $actual_time);
     }
     } catch(Exception $e){
         throw new Exception($e->getMessage());
@@ -102,8 +169,8 @@ function calc_time($time){
     if (count($parts) == 2){
     $sec = (int)$parts[0];
     $millisecs = (int)$parts[1];
-
-    $total_secs = $sec+($millisecs/1000);
+    
+    $total_secs =$sec.".".str_pad($millisecs,3,"0");
     return $total_secs;
 
     }
@@ -136,7 +203,7 @@ function get_times($uid){
     while($row = $res->fetch_assoc()){
         $res_arr[] = $row;
     }
-    return $res_arr;
+    return ret("success","Location Loaded",$res_arr);;
 
 }
 function reset_table($uid){
@@ -146,29 +213,35 @@ function reset_table($uid){
     $stmt->bind_param("i",$uid);
     $stmt->execute();
     if($stmt->affected_rows > 0){
-        return ["Something Happened"];
+        return ret("success","Table Deleted",null);
     }else{
 
-        return ["Nope"];
+        return ret("error","Table Delete Fail", null);
     }
 }
 
 try{
 if ($funct_name === "get_locs") {
-    echo json_encode(["status"=>"success","msg"=>"Locations Set","body"=>get_locs()]);
+    echo json_encode(get_locs());
 }elseif ($funct_name === "get_tracks") {
-    echo json_encode(["status"=>"success","msg"=>"Tracks Set","body"=>get_tracks($args_string)]);
-}elseif($funct_name == "get_cars"){
-    echo json_encode(["status"=>"success","msg"=>"Cars Loaded","body"=>get_cars($uid)]);
-}elseif($funct_name == "add_time"){
-    echo json_encode(["status"=>"success","msg"=>"Time Added","body"=>add_time(...explode(",", $args_string))]);
-}elseif($funct_name==="reset"){
-    echo json_encode(["status"=>"success", "msg"=>"Deleted", "body"=>reset_table($uid)]);
+    echo json_encode(get_tracks($args_string));
+}elseif($funct_name == "user"){
+    echo json_encode(get_uname());
 }
-elseif($funct_name === "get_times"){
-    echo json_encode(["status"=>"success", "msg"=>"Updated Table", "body"=>get_times($uid)]);
+elseif($funct_name == "get_cars"){
+    echo json_encode(get_cars($uid));
+}elseif($funct_name == "add_time"){
+    echo json_encode(add_time(...explode(",", $args_string)));
+}elseif($funct_name==="reset"){
+    echo json_encode(reset_table($uid));
+}elseif($funct_name == "save"){
+    echo json_encode(save_cars($uid,$args_string));
+}elseif($funct_name === "get_times"){
+    echo json_encode(get_times($uid));
 }elseif($funct_name === "check_user"){
     echo json_encode(check_user($uid));
+}elseif($funct_name == "load_cars"){
+    echo json_encode(get_all_cars($args_string));
 }
 else {
     echo json_encode(["status" => "error", "msg" => "Function ". $funct_name." not found OR is not set"]);

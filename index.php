@@ -6,15 +6,7 @@
     <link rel="stylesheet" href="./assets/css/index.css">
     <title>Gauntlet</title>
 </head>
-<?php
-session_start();
-if(!isset($_SESSION["uid"])){
-    header("Location: login.php");
-    exit();
-}
-$uid = $_SESSION["uid"];
-$acc = $_SESSION["uname"]
-?>
+
 <body>
     <div class="nav">
         <h1>Gauntlet Database</h1>
@@ -27,7 +19,7 @@ $acc = $_SESSION["uname"]
             </div>
             <div class="controls-row">
                 <div class="selection-counter"><span id="sel-count">0</span> selected</div>
-                <div class="selection-counter">Logged in as <span id="acc"><?php echo $acc;?></span></div>
+                <div class="selection-counter">Logged in as <span id="acc"></span></div>
                 <button class="btn-next" id="btn-next">Next →</button>
             </div>
         </div>
@@ -42,5 +34,4 @@ $acc = $_SESSION["uname"]
     <div class="toast" id="toast"></div>
 </body>
     <script src="./scripts/index.js"></script>
-    <script>const sessionData  = {"uid":<?php echo $uid ?>};</script>
 </html>

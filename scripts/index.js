@@ -1,10 +1,23 @@
 const searchbar = document.querySelector(".search")
 const donetypingtimer = 300;
 const next = document.querySelector("#btn-next")
-const choices = document.querySelectorAll(".checks label input")
 var selected = []
 let typingtimer;
 let toastTimer;
+
+
+async function connect(dest,td,params){
+    const response = await fetch(dest,{method:td,body:JSON.stringify({
+        "to_do":td,
+        "params":params
+    })});
+    const res = await response.json();
+    const status = res["status"]
+    const msg = res["msg"]
+    const data = res["body"]
+    return [status, msg, data]
+}
+
 
 function showToast(message, type = "info") {
     const toast = document.getElementById("toast");
@@ -34,29 +47,40 @@ function select(carid){
                     } 
 }
 
-async function loadcars(query ="", isclass = false, clas ="") {
+async function loadcars(query ="") {
     try{
-        var res = null
-        if(isclass){
-            res = await fetch(`fetch_cars.php?search=${query}&class=${clas}`);
-        }else{
-            res = await fetch(`fetch_cars.php?search=${query}`);
-            
-        }       
-        if (!res.ok) throw new Error(`Server error: ${res.status}`);
-        const cars = await res.json();
+        var res = await fetch(`config.php`,{method:"POST",body:JSON.stringify(
+                {
+                    "to_do":"load_cars",
+                    "params":query
+                }
+            )});       
+        const res_json = await res.json();
+        const cars = res_json.body
         const carList = document.querySelector(".car-list")
         carList.innerHTML  = "";
+        
         if (cars.length > 0){
             cars.forEach(car => {
                 const carBox = document.createElement("div");
+                const imgDiv = document.createElement("div");
+                imgDiv.style.backgroundImage=`url(/web_prog/assets/car_imgs/${car.id}.jpg)`
+                imgDiv.id = "img"
+                const carName = document.createElement("div");
+                const brand = document.createElement("h2")
+                const model = document.createElement("h2")
+                carName.className = "car-name"
+                brand.id = "brand"
+                model.id = "model"
+                brand.textContent = car.brand;
+                model.textContent = car.model
+                carName.appendChild(brand)
+                carName.appendChild(model)
                 carBox.className = "car-card";
                 carBox.id = car.id
-                carBox.style.backgroundImage = `url('/web_prog/assets/car_imgs/${car.id}.jpg')`;
-                carBox.innerHTML = `<div class="car-name"">
-                                <h2 id="brand">${car.brand}</h2>
-                                <h2 id="model">${car.model}</h2>
-                                </div>`
+                carBox.appendChild(imgDiv)
+                carBox.appendChild(carName)
+                
 
                 // Restore selected state across re-renders
                 if (selected.includes(car.id)) carBox.classList.add("selected");
@@ -78,7 +102,10 @@ async function loadcars(query ="", isclass = false, clas ="") {
 }
 
 async function get_cars(){
-    const res = await fetch(`config.php?funct=get_cars&args=${sessionData.uid}`)
+    const res = await fetch(`config.php`,{method:"POST",body:JSON.stringify({
+        'to_do':"get_cars",
+        "params":null
+    })})
     const res_json = await res.json();
     const status = res_json["status"];
     const msg = res_json["msg"]
@@ -102,7 +129,10 @@ searchbar.addEventListener("input",(e)=>{
 })
 
 next.addEventListener("click", async(e)=>{
-    const result = await fetch(`save_cars.php?cars=${selected}`, {method:"POST"})
+    const result = await fetch(`config.php`, {method:"POST",body:JSON.stringify({
+        "to_do":"save",
+        "params":selected.join(",")
+    })})
     const res = await result.json()
     const msg = res["msg"]
     const stat = res["status"]
@@ -112,15 +142,11 @@ next.addEventListener("click", async(e)=>{
     }, 300)
 })
 
-choices.forEach(choice => {
-    choice.addEventListener("click", (e)=>{
-        if (choice.checked){
-            loadcars(searchbar.value,true,choice.value)
-        }
-    })
-    
-});
-window.addEventListener("DOMContentLoaded", (e)=>{
+window.addEventListener("DOMContentLoaded", async (e)=>{
+    const res = await connect("config.php", "user",null)
+    const [stat, msg, body] = res
+    document.querySelector("#acc").textContent = body
+    showToast(msg, stat)
     loadcars();
     get_cars();
 })
