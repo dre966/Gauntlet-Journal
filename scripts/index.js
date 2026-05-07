@@ -118,6 +118,19 @@ async function get_cars(){
     showToast(msg, status)
 }
 
+async function check_user() {
+    const res_arr = await connect("config.php","check_user",null)
+    const [status, msg, body] = res_arr
+    if(status == "error"){
+        showToast(msg, status)
+        setTimeout(()=>{
+            window.location.href = "login.php"
+        },3000)
+    }else{
+        showToast(msg,status)
+    }
+
+}
 
 searchbar.addEventListener("input",(e)=>{
     clearTimeout(typingtimer);
@@ -143,6 +156,7 @@ next.addEventListener("click", async(e)=>{
 })
 
 window.addEventListener("DOMContentLoaded", async (e)=>{
+    check_user();
     const res = await connect("config.php", "user",null)
     const [stat, msg, body] = res
     document.querySelector("#acc").textContent = body

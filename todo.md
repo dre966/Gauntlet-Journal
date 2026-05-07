@@ -7,7 +7,7 @@ Based on your current files, here is a checklist of tasks organized by priority.
 ### Phase 1: The "Must-Have" Security
 Right now, your login system is vulnerable to basic attacks. You should fix these before publishing anywhere.
 
-* [ ] **Implement Password Hashing:** * Update `insert.php` to use `password_hash($pass, PASSWORD_DEFAULT)` during registration.
+ - [x] **Implement Password Hashing:** * Update `insert.php` to use `password_hash($pass, PASSWORD_DEFAULT)` during registration.
     * Update `insert.php` (login section) to use `password_verify($pass, $row['pass'])`.
 * [ ] **Switch to PHP Sessions:** * In your login logic, use `$_SESSION['user_id'] = $uid;` instead of passing the ID in the URL (`?u=...`).
     * Add `session_start();` at the top of every PHP file to verify the user is actually logged in.

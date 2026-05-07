@@ -1,6 +1,7 @@
 <?php
 session_start();
 $recv = json_decode(file_get_contents("php://input"),true);
+header("Content-Type: application/json");
 $funct_name = $recv['to_do'] ?? null;
 $args_string = $recv['params'] ?? null;
 $uid = $_SESSION["uid"] ?? null;
