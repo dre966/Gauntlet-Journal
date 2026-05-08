@@ -1,9 +1,11 @@
 const searchbar = document.querySelector(".search")
 const donetypingtimer = 300;
 const next = document.querySelector("#btn-next")
+const view = document.querySelector(".view_changer")
 var selected = []
 let typingtimer;
 let toastTimer;
+let oldlist;
 
 
 async function connect(dest,td,params){
@@ -47,21 +49,10 @@ function select(carid){
                     } 
 }
 
-async function loadcars(query ="") {
-    try{
-        var res = await fetch(`config.php`,{method:"POST",body:JSON.stringify(
-                {
-                    "to_do":"load_cars",
-                    "params":query
-                }
-            )});       
-        const res_json = await res.json();
-        const cars = res_json.body
-        const carList = document.querySelector(".car-list")
-        carList.innerHTML  = "";
-        
-        if (cars.length > 0){
-            cars.forEach(car => {
+function build_car_cards(carlist){
+    const carList = document.querySelector(".car-list")
+    carList.innerHTML  = "";
+    carlist.forEach(car => {
                 const carBox = document.createElement("div");
                 const imgDiv = document.createElement("div");
                 imgDiv.style.backgroundImage=`url(/web_prog/assets/car_imgs/${car.id}.jpg)`
@@ -92,6 +83,21 @@ async function loadcars(query ="") {
                     updateControls();
                 });
             });
+}
+
+async function loadcars(query ="") {
+    try{
+        var res = await fetch(`config.php`,{method:"POST",body:JSON.stringify(
+                {
+                    "to_do":"load_cars",
+                    "params":query
+                }
+            )});       
+        const res_json = await res.json();
+        const cars = res_json.body
+       
+        if (cars.length > 0){
+           build_car_cards(cars)
         } else {
             showToast("No cars found.", "info");
         }
@@ -100,6 +106,7 @@ async function loadcars(query ="") {
         showToast("Failed to load cars. Please try again.", "error");
     }
 }
+
 
 async function get_cars(){
     const res = await fetch(`config.php`,{method:"POST",body:JSON.stringify({
@@ -139,6 +146,19 @@ searchbar.addEventListener("input",(e)=>{
         console.log(term)
         loadcars(term)
     }, donetypingtimer);
+})
+
+view.addEventListener("click",(e)=>{
+    const carList = document.querySelectorAll(".car-card")
+    const resList = []
+    if(view.classList.contains("clicked")){
+    
+        view.classList.remove("clicked")
+    }else{
+        view.classList.add("clicked")
+
+    }
+    console.log(resList)
 })
 
 next.addEventListener("click", async(e)=>{

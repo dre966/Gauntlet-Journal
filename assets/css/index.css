@@ -69,18 +69,42 @@ html, body{
     margin-top: 10px;
 }
 
-.selection-counter {
+.controls-row div{
     color: rgba(255, 255, 255, 0.85);
     font-family: "RadjM", sans-serif;
     font-size: 1rem;
+    width: 200px;
     background: rgba(255,255,255,0.1);
     padding: 4px 14px;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
     border-radius: 12px;
     border: 1px solid rgba(255,255,255,0.2);
+    transition: transform 0.3s ease;
 }
 
-.selection-counter span {
+.controls-row span {
     color: #00ff04;
+    font-weight: bold;
+}
+
+
+.view_changer:hover{
+    transform: scale(0.95);
+    font-family: "RadjM", sans-serif;
+    font-size: 1rem;
+}
+
+.view_changer.clicked{
+    background-color:  #00ff04;
+    color: #007e02;
+
+}
+
+.view_changer.clicked span{
+    color: #430b6e;
     font-weight: bold;
 }
 
@@ -153,11 +177,16 @@ html, body{
     overflow: hidden;
     position: relative;
     border: 1px solid rgb(255, 255, 255,0.1);
-    transition: opacity 0.3s, transform 0.3s;  
+    transition: opacity 0.3s, transform 0.3s translate 0.3s;  
     /* background: rgb(255, 255, 255,0.1); */
     cursor: pointer; 
 }
 
+.car-card.show{
+    visibility: hidden;
+    width: 0;
+    height: 0;
+}
 .car-name{
     margin: 23% 0 0 0;
     padding: 30% 0px 0 10px;

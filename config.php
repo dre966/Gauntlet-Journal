@@ -1,5 +1,6 @@
 <?php
-session_start();
+session_start(["cookie_httponly"=>true,"cookie_secure"=>true,"cookie_samesite"=>"Strict","cookie_lifetime"=>3600]);
+
 $recv = json_decode(file_get_contents("php://input"),true);
 header("Content-Type: application/json");
 $funct_name = $recv['to_do'] ?? null;

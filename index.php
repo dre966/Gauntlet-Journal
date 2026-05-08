@@ -18,8 +18,9 @@
                 <input type="text" class="search" placeholder="Search...">
             </div>
             <div class="controls-row">
-                <div class="selection-counter"><span id="sel-count">0</span> selected</div>
-                <div class="selection-counter">Logged in as <span id="acc"></span></div>
+                <div class="view_changer"><span>Show</span> selected</div>
+                <div class="selection-counter"><span id="sel-count">0</span> cars selected</div>
+                <div class="user_info">Logged in as <span id="acc"></span></div>
                 <button class="btn-next" id="btn-next">Next →</button>
             </div>
         </div>
