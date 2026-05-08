@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="./assets/css/index.css">
     <title>Gauntlet</title>
 </head>
-
+//removed some code here for testing commit from other users
 <body>
     <div class="nav">
         <h1>Gauntlet Database</h1>
