@@ -132,7 +132,7 @@ function buildCardView(records) {
         front.id = "front"
         const back = document.createElement("div")
         back.id = "back"
-        back.style.backgroundImage =`url('/web_prog/assets/car_imgs/${car["Vehicle ID"]}.jpg'`;
+        back.style.backgroundImage =`url('../assets/car_imgs/${car["Vehicle ID"]}.jpg'`;
         carName.className ="car-name"
         const timestamp = document.createElement("div")
         timestamp.className = "time-stamp"

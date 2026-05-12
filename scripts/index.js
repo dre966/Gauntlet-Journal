@@ -9,7 +9,7 @@ let oldlist;
 
 
 async function connect(dest,td,params){
-    const response = await fetch(dest,{method:td,body:JSON.stringify({
+    const response = await fetch(dest,{method:"POST",body:JSON.stringify({
         "to_do":td,
         "params":params
     })});
@@ -56,7 +56,7 @@ function build_car_cards(carlist){
     carlist.forEach(car => {
                 const carBox = document.createElement("div");
                 const imgDiv = document.createElement("div");
-                imgDiv.style.backgroundImage=`url(/web_prog/assets/car_imgs/${car.id}.jpg)`
+                imgDiv.style.backgroundImage=`url(./assets/car_imgs/${car.id}.jpg)`
                 imgDiv.id = "img"
                 const carName = document.createElement("div");
                 const brand = document.createElement("h2")

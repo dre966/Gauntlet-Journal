@@ -26,7 +26,7 @@
         </div>
 
         <div class="car-list">
-            <div class="car-card" style="background-image: url('/web_prog/assets/car_imgs/1.jpg')">
+            <div class="car-card" style="background-image: url('./assets/car_imgs/1.jpg')">
             </div>
         </div>
     </div>

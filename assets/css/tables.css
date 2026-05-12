@@ -1,11 +1,11 @@
 @font-face {
     font-family: "RadjM";
-    src: url(/web_prog/assets/fonts/Rajdhani-Medium.ttf);
+    src: url(../assets/fonts/Rajdhani-Medium.ttf);
 }
 
 @font-face {
     font-family: 'Rajdhani';
-    src: url(/web_prog/assets/fonts/Rajdhani-Bold.ttf);
+    src: url(../assets/fonts/Rajdhani-Bold.ttf);
 }
 
 * {
@@ -17,7 +17,7 @@
 }
 
 body {
-    background: url(/web_prog/assets/Gauntlet_b299010486.png);
+    background: url(../assets/Gauntlet_b299010486.png);
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;

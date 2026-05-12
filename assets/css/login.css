@@ -1,6 +1,6 @@
 @font-face {
     font-family: "RadjM";
-    src: url(/web_prog/assets/fonts/Rajdhani-Medium.ttf);
+    src: url(../assets/fonts/Rajdhani-Medium.ttf);
 }
 html, body{
     margin: 0;

@@ -34,5 +34,5 @@
     </div>
     <div id="toast"></div>
 </body>
-<script src="/web_prog/scripts/login.js"></script>
+<script src="./scripts/login.js"></script>
 </html>

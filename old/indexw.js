@@ -13,7 +13,7 @@ async function loadcars(query ="") {
             cars.forEach(car => {
         const carBox = document.createElement("div");
         carBox.className = "car-card";
-        carBox.style.backgroundImage = `url('/web_prog/assets/car_imgs/${car.id}.jpg')`;
+        carBox.style.backgroundImage = `url('./assets/car_imgs/${car.id}.jpg')`;
         carBox.innerHTML = `<div class="car-name">
                         <h2 id="brand">${car.brand}</h2>
                         <h2 id="model">${car.model}</h2>
