@@ -7,11 +7,13 @@ $funct_name = $recv['to_do'] ?? null;
 $args_string = $recv['params'] ?? null;
 $uid = $_SESSION["uid"] ?? null;
 function connect(){
-    $host = "localhost";
-    $user = "root";
-    $pass = "";
-    $db_name = "web_prog";
-    $conn = new mysqli($host, $user, $pass, $db_name);
+    $conn = new mysqli(
+    getenv('MYSQLHOST'),
+    getenv('MYSQLUSER'),
+    getenv('MYSQLPASSWORD'),
+    getenv('MYSQLDATABASE'),
+    getenv('MYSQLPORT')
+);
     if($conn->error){
         die(json_encode(["status"=>"error","msg"=>"Connection Failed"]));
     }
