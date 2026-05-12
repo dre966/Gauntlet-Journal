@@ -1,4 +1,9 @@
 <?php
+require 'vendor/autoload.php';
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+
 session_start(["cookie_httponly"=>true,"cookie_secure"=>true,"cookie_samesite"=>"Strict","cookie_lifetime"=>3600]);
 
 $recv = json_decode(file_get_contents("php://input"),true);
@@ -7,12 +12,12 @@ $funct_name = $recv['to_do'] ?? null;
 $args_string = $recv['params'] ?? null;
 $uid = $_SESSION["uid"] ?? null;
 function connect(){
-    $conn = new mysqli(
-    getenv('MYSQLHOST'),
-    getenv('MYSQLUSER'),
-    getenv('MYSQLPASSWORD'),
-    getenv('MYSQLDATABASE'),
-    getenv('MYSQLPORT')
+$conn = new mysqli(
+    $_ENV['MYSQLHOST'],
+    $_ENV['MYSQLUSER'],
+    $_ENV['MYSQLPASSWORD'],
+    $_ENV['MYSQLDATABASE'],
+    $_ENV['MYSQLPORT']
 );
     if($conn->error){
         die(json_encode(["status"=>"error","msg"=>"Connection Failed"]));

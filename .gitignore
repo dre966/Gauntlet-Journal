@@ -1,3 +1,6 @@
 db/*.sql
 github/
 todo.md
+.env
+vendor/
+.gitignore

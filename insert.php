@@ -1,11 +1,13 @@
 <?php
 header('Content-Type: application/json');
+require 'vendor/autoload.php';
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
-
-$host     = "localhost";
-$user     = "root";
-$password = "";
-$db_name  = "web_prog";
+$host     = $_ENV['MYSQLHOST'];
+$user     = $_ENV['MYSQLUSER'];
+$password = $_ENV['MYSQLPASSWORD'];
+$db_name  = $_ENV['MYSQLDATABASE'];
 
 $res = json_decode(file_get_contents("php://input"),true);
 
