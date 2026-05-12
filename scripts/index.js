@@ -129,14 +129,14 @@ async function get_cars(){
 async function check_user() {
     const res_arr = await connect("config.php","check_user",null)
     const [status, msg, body] = res_arr
-    // if(status == "error"){
-    //     showToast(msg, status)
-    //     setTimeout(()=>{
-    //         window.location.href = "login.php"
-    //     },3000)
-    // }else{
-    //     showToast(msg,status)
-    // }
+    if(status == "error"){
+        showToast(msg, status)
+        setTimeout(()=>{
+            window.location.href = "login.php"
+        },3000)
+    }else{
+        showToast(msg,status)
+    }
 
 }
 
@@ -192,6 +192,6 @@ window.addEventListener("DOMContentLoaded", async (e)=>{
     const [stat, msg, body] = res
     document.querySelector("#acc").textContent = body
     showToast(msg, stat)
-    loadcars();
+    await loadcars();
     get_cars();
 })
