@@ -1,7 +1,7 @@
 <?php
 require 'vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
+$dotenv->safeLoad();
 
 
 session_start(["cookie_httponly"=>true,"cookie_secure"=>true,"cookie_samesite"=>"Strict","cookie_lifetime"=>3600]);

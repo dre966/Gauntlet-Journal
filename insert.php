@@ -2,7 +2,7 @@
 header('Content-Type: application/json');
 require 'vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
+$dotenv->safeLoad();
 
 $host     = $_ENV['MYSQLHOST'];
 $user     = $_ENV['MYSQLUSER'];
