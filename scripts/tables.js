@@ -10,7 +10,7 @@ const toastQueue = [];
 let toastRunning = false;
 
 async function connect(dest,td,params){
-    const response = await fetch(dest,{method:td,body:JSON.stringify({
+    const response = await fetch(dest,{method:"POST",body:JSON.stringify({
         "to_do":td,
         "params":params
     })});
