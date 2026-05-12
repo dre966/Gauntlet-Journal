@@ -38,6 +38,7 @@ function updateControls() {
 }
 
 function select(carid){
+    carid = carid.toString();
     console.log("selected ", carid)
     carBox = document.getElementById(carid)
  if (selected.includes(carid)) {
@@ -119,7 +120,7 @@ async function get_cars(){
     const data = res_json["body"]
     console.log("heyyy")
     data.forEach(d=>{
-       select(d.id)
+       select(String(d.id))
        updateControls();
     })
     showToast(msg, status)
@@ -139,28 +140,38 @@ async function check_user() {
 
 }
 
-searchbar.addEventListener("input",(e)=>{
+searchbar.addEventListener("input", (e) => {
     clearTimeout(typingtimer);
+    view.classList.remove("clicked");
+
     typingtimer = setTimeout(() => {
-        const term = e.target.value
-        console.log(term)
-        loadcars(term)
+        loadcars(e.target.value);
     }, donetypingtimer);
-})
+});
 
-view.addEventListener("click",(e)=>{
-    const carList = document.querySelectorAll(".car-card")
-    const resList = []
-    if(view.classList.contains("clicked")){
-    
-        view.classList.remove("clicked")
-    }else{
-        view.classList.add("clicked")
+view.addEventListener("click", (e) => {
+    if (view.classList.contains("clicked")) {
+        view.classList.remove("clicked");
+        document.querySelectorAll(".car-card").forEach(card => {
+            card.classList.remove("show");
+        });
+    } else {
+        view.classList.add("clicked");
 
+        if (selected.length === 0) {
+            showToast("No cars selected.", "info");
+            view.classList.remove("clicked");
+            return;
+        }
+
+        document.querySelectorAll(".car-card").forEach(card => {
+            console.log("card id:", card.id, "| selected:", selected, "| includes:", selected.includes(card.id));
+            if (!selected.includes(card.id)) {
+                card.classList.add("show");
+            }
+        });
     }
-    console.log(resList)
-})
-
+});
 next.addEventListener("click", async(e)=>{
     const result = await fetch(`config.php`, {method:"POST",body:JSON.stringify({
         "to_do":"save",
